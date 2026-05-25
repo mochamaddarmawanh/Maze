@@ -3,12 +3,13 @@ using UnityEngine;
 public class MazeGenerator : MonoBehaviour
 {
     [Header("Maze Size")]
-    public int width = 15;
-    public int length = 15;
+    public int mazeWidth = 15;
+    public int mazeLength = 15;
 
     [Header("Prefabs")]
     public GameObject wallPrefab;
     public GameObject floorPrefab;
+    public GameObject exitPrefab;
 
     [Header("Settings")]
     public float wallHeight = 2f;
@@ -29,12 +30,12 @@ public class MazeGenerator : MonoBehaviour
 
     void GenerateMaze()
     {
-        maze = new int[width, length];
+        maze = new int[mazeWidth, mazeLength];
 
         // isi semua jadi wall
-        for (int x = 0; x < width; x++)
+        for (int x = 0; x < mazeWidth; x++)
         {
-            for (int y = 0; y < length; y++)
+            for (int y = 0; y < mazeLength; y++)
             {
                 maze[x, y] = 1;
             }
@@ -70,7 +71,7 @@ public class MazeGenerator : MonoBehaviour
             int nx = x + dx;
             int ny = y + dy;
 
-            if (nx > 0 && ny > 0 && nx < width - 1 && ny < length - 1)
+            if (nx > 0 && ny > 0 && nx < mazeWidth - 1 && ny < mazeLength - 1)
             {
                 if (maze[nx, ny] == 1)
                 {
@@ -95,16 +96,14 @@ public class MazeGenerator : MonoBehaviour
 
     void BuildMaze()
     {
-        for (int x = 0; x < width; x++)
+        for (int x = 0; x < mazeWidth; x++)
         {
-            for (int y = 0; y < length; y++)
+            for (int y = 0; y < mazeLength; y++)
             {
                 Vector3 position = new Vector3(x * tileSize, 0, y * tileSize);
 
-                // floor
                 Instantiate(floorPrefab, position, Quaternion.identity, transform);
 
-                // wall
                 if (maze[x, y] == 1)
                 {
                     Vector3 wallPos = position + Vector3.up * (wallHeight / 2f);
@@ -124,5 +123,18 @@ public class MazeGenerator : MonoBehaviour
                 }
             }
         }
+
+        // spawn exit
+        Vector3 exitPosition = new Vector3(
+            (mazeWidth - 2) * tileSize,
+            1f,
+            (mazeLength - 2) * tileSize
+        );
+
+        Instantiate(
+            exitPrefab,
+            exitPosition,
+            Quaternion.identity
+        );
     }
 }
