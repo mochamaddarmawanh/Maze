@@ -4,21 +4,29 @@ using TMPro;
 
 public class BeaconTagPlacer : MonoBehaviour
 {
-    [Header("Beacon")]
-    [SerializeField] private GameObject beaconTagPrefab;
-
     [Header("Settings")]
     [SerializeField] private int maxBeaconTags = 5;
+
+    [Header("Beacon")]
+    [SerializeField] private GameObject beaconTagPrefab;
+    private int currentBeaconTags;
 
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI beaconTagText;
 
+    [Header("Player")]
+    private Transform player;
     private CharacterController characterController;
-    private int currentBeaconTags;
 
     void Start()
     {
-        characterController = GetComponent<CharacterController>();
+        player =
+            GameObject
+            .FindGameObjectWithTag("Player")
+            .transform;
+
+        characterController =
+            player.GetComponent<CharacterController>();
 
         currentBeaconTags = maxBeaconTags;
 
@@ -36,16 +44,12 @@ public class BeaconTagPlacer : MonoBehaviour
     void PlaceBeaconTag()
     {
         if (!characterController.isGrounded) return;
-        
+
         if (currentBeaconTags <= 0) return;
 
         Instantiate(
             beaconTagPrefab,
-            new Vector3(
-                transform.position.x,
-                0f,
-                transform.position.z
-            ) + transform.forward * 0.8f,
+            new Vector3(player.position.x, 0f, player.position.z) + player.forward * 0.8f,
             Quaternion.identity
         );
 
@@ -56,6 +60,6 @@ public class BeaconTagPlacer : MonoBehaviour
 
     void UpdateBeaconTagUI()
     {
-        beaconTagText.text = "Beacon Tags: " + currentBeaconTags + "/" + maxBeaconTags;
+        beaconTagText.text = "Beacon Tag(s): " + currentBeaconTags + "/" + maxBeaconTags;
     }
 }

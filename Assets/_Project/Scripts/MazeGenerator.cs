@@ -4,22 +4,21 @@ using StarterAssets;
 public class MazeGenerator : MonoBehaviour
 {
     [Header("Maze Size")]
-    public int mazeWidth = 15;
-    public int mazeLength = 15;
-
-    [Header("Prefabs")]
-    public GameObject wallPrefab;
-    public GameObject floorPrefab;
-    public GameObject exitPrefab;
-
-    [Header("Settings")]
-    public float wallHeight = 2f;
-    public float tileSize = 4f;
-
+    [SerializeField] private int mazeWidth = 15;
+    [SerializeField] private int mazeLength = 15;
     private int[,] maze;
 
+    [Header("Prefabs")]
+    [SerializeField] private GameObject wallPrefab;
+    [SerializeField] private GameObject floorPrefab;
+    [SerializeField] private GameObject exitPrefab;
+
+    [Header("Settings")]
+    [SerializeField] private float wallHeight = 2f;
+    [SerializeField] private float tileSize = 4f;
+
     [Header("Player")]
-    [SerializeField] private Transform player;
+    private Transform player;
     private CharacterController characterController;
     private ThirdPersonController thirdPersonController;
 
@@ -30,6 +29,11 @@ public class MazeGenerator : MonoBehaviour
         BuildMaze();
 
         SpawnExit();
+
+        player =
+            GameObject
+            .FindGameObjectWithTag("Player")
+            .transform;
 
         characterController =
             player.GetComponentInChildren<CharacterController>();

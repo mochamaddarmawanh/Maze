@@ -3,18 +3,11 @@ using TMPro;
 
 public class GameStopWatch : MonoBehaviour
 {
-    public TextMeshProUGUI timerText;
+    [SerializeField] private TextMeshProUGUI timerText;
 
     private float elapsedTime = 0f;
     private bool timerRunning = true;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
     void Update()
     {
         if (!timerRunning)
