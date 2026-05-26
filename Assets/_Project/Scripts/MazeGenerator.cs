@@ -26,7 +26,22 @@ public class MazeGenerator : MonoBehaviour
         BuildMaze();
         SpawnExit();
 
-        player.position = new Vector3(tileSize, 2f, tileSize);
+        Invoke(nameof(SpawnPlayer), 0.1f);
+    }
+
+    void SpawnPlayer()
+    {
+        CharacterController controller = player.GetComponentInChildren<CharacterController>();
+
+        controller.enabled = false;
+
+        player.position = new Vector3(
+            tileSize,
+            2f,
+            tileSize
+        );
+
+        controller.enabled = true;
     }
 
     void GenerateMaze()
@@ -43,10 +58,6 @@ public class MazeGenerator : MonoBehaviour
         }
 
         Carve(1, 1);
-
-        maze[1, 1] = 0;
-        maze[1, 2] = 0;
-        maze[2, 1] = 0;
     }
 
     void Carve(int x, int y)
