@@ -1,8 +1,9 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ExitTrigger : MonoBehaviour
 {
-    public GameStopWatch gameStopWatch;
+    private GameStopWatch gameStopWatch;
 
     void Start()
     {
@@ -16,6 +17,15 @@ public class ExitTrigger : MonoBehaviour
             gameStopWatch.StopTimer();
 
             Debug.Log("YOU WIN!");
+
+            Invoke(nameof(RestartGame), 2f);
         }
+    }
+
+    void RestartGame()
+    {
+        SceneManager.LoadScene(
+            SceneManager.GetActiveScene().buildIndex
+        );
     }
 }
