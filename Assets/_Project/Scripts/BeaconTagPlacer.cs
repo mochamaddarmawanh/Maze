@@ -13,10 +13,13 @@ public class BeaconTagPlacer : MonoBehaviour
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI beaconTagText;
 
+    private CharacterController characterController;
     private int currentBeaconTags;
 
     void Start()
     {
+        characterController = GetComponent<CharacterController>();
+
         currentBeaconTags = maxBeaconTags;
 
         UpdateBeaconTagUI();
@@ -32,11 +35,17 @@ public class BeaconTagPlacer : MonoBehaviour
 
     void PlaceBeaconTag()
     {
+        if (!characterController.isGrounded) return;
+        
         if (currentBeaconTags <= 0) return;
 
         Instantiate(
             beaconTagPrefab,
-            transform.position + transform.forward * 0.8f,
+            new Vector3(
+                transform.position.x,
+                0f,
+                transform.position.z
+            ) + transform.forward * 0.8f,
             Quaternion.identity
         );
 
