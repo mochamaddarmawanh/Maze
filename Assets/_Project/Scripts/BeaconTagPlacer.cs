@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class BeaconTagPlacer : MonoBehaviour
 {
@@ -7,13 +8,18 @@ public class BeaconTagPlacer : MonoBehaviour
     [SerializeField] private GameObject beaconTagPrefab;
 
     [Header("Settings")]
-    [SerializeField] private int maxBeaconTags = 12;
+    [SerializeField] private int maxBeaconTags = 5;
+
+    [Header("UI")]
+    [SerializeField] private TextMeshProUGUI beaconTagText;
 
     private int currentBeaconTags;
 
     void Start()
     {
         currentBeaconTags = maxBeaconTags;
+
+        UpdateBeaconTagUI();
     }
 
     void Update()
@@ -35,5 +41,12 @@ public class BeaconTagPlacer : MonoBehaviour
         );
 
         currentBeaconTags--;
+
+        UpdateBeaconTagUI();
+    }
+
+    void UpdateBeaconTagUI()
+    {
+        beaconTagText.text = "Beacon Tags: " + currentBeaconTags + "/" + maxBeaconTags;
     }
 }
