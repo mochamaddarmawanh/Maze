@@ -24,6 +24,7 @@ public class MazeGenerator : MonoBehaviour
     {
         GenerateMaze();
         BuildMaze();
+        SpawnExit();
 
         player.position = new Vector3(tileSize, 2f, tileSize);
     }
@@ -123,18 +124,33 @@ public class MazeGenerator : MonoBehaviour
                 }
             }
         }
+    }
 
-        // spawn exit
-        Vector3 exitPosition = new Vector3(
-            (mazeWidth - 2) * tileSize,
-            1f,
-            (mazeLength - 2) * tileSize
-        );
+    void SpawnExit()
+    {
+        Vector3 exitPosition = Vector3.zero;
 
-        Instantiate(
-            exitPrefab,
-            exitPosition,
-            Quaternion.identity
-        );
+        for (int x = mazeWidth - 2; x >= 0; x--)
+        {
+            for (int y = mazeLength - 2; y >= 0; y--)
+            {
+                if (maze[x, y] == 0)
+                {
+                    exitPosition = new Vector3(
+                        x * tileSize,
+                        1f,
+                        y * tileSize
+                    );
+
+                    Instantiate(
+                        exitPrefab,
+                        exitPosition,
+                        Quaternion.identity
+                    );
+
+                    return;
+                }
+            }
+        }
     }
 }
