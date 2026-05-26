@@ -47,9 +47,15 @@ public class BeaconTagPlacer : MonoBehaviour
 
         if (currentBeaconTags <= 0) return;
 
+        Vector3 spawnPosition =
+            new Vector3(
+                player.position.x, 0f,
+                player.position.z
+            ) + player.forward * 0.8f;
+
         Instantiate(
             beaconTagPrefab,
-            new Vector3(player.position.x, 0f, player.position.z) + player.forward * 0.8f,
+            spawnPosition,
             Quaternion.identity
         );
 

@@ -5,17 +5,17 @@ public class MazeGenerator : MonoBehaviour
 {
     [Header("Maze Size")]
     [SerializeField] private int mazeWidth = 15;
-    [SerializeField] private int mazeLength = 15;
+    [SerializeField] private int mazeHeight = 15;
     private int[,] maze;
+
+    [Header("Settings")]
+    [SerializeField] private float wallHeight = 2f;
+    [SerializeField] private float tileSize = 4f;
 
     [Header("Prefabs")]
     [SerializeField] private GameObject wallPrefab;
     [SerializeField] private GameObject floorPrefab;
     [SerializeField] private GameObject exitPrefab;
-
-    [Header("Settings")]
-    [SerializeField] private float wallHeight = 2f;
-    [SerializeField] private float tileSize = 4f;
 
     [Header("Player")]
     private Transform player;
@@ -67,12 +67,12 @@ public class MazeGenerator : MonoBehaviour
 
     void GenerateMaze()
     {
-        maze = new int[mazeWidth, mazeLength];
+        maze = new int[mazeWidth, mazeHeight];
 
         // isi semua jadi wall
         for (int x = 0; x < mazeWidth; x++)
         {
-            for (int y = 0; y < mazeLength; y++)
+            for (int y = 0; y < mazeHeight; y++)
             {
                 maze[x, y] = 1;
             }
@@ -104,7 +104,7 @@ public class MazeGenerator : MonoBehaviour
             int nx = x + dx;
             int ny = y + dy;
 
-            if (nx > 0 && ny > 0 && nx < mazeWidth - 1 && ny < mazeLength - 1)
+            if (nx > 0 && ny > 0 && nx < mazeWidth - 1 && ny < mazeHeight - 1)
             {
                 if (maze[nx, ny] == 1)
                 {
@@ -131,7 +131,7 @@ public class MazeGenerator : MonoBehaviour
     {
         for (int x = 0; x < mazeWidth; x++)
         {
-            for (int y = 0; y < mazeLength; y++)
+            for (int y = 0; y < mazeHeight; y++)
             {
                 Vector3 position = new Vector3(x * tileSize, 0, y * tileSize);
 
@@ -164,7 +164,7 @@ public class MazeGenerator : MonoBehaviour
 
         for (int x = mazeWidth - 2; x >= 0; x--)
         {
-            for (int y = mazeLength - 2; y >= 0; y--)
+            for (int y = mazeHeight - 2; y >= 0; y--)
             {
                 if (maze[x, y] == 0)
                 {

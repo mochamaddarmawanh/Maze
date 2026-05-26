@@ -12,17 +12,16 @@ public class ExitTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            gameStopWatch.StopTimer();
+        if (!other.CompareTag("Player")) return;
 
-            Debug.Log("YOU WIN!");
+        gameStopWatch.StopTimer();
 
-            Invoke(nameof(RestartGame), 2f);
-        }
+        Debug.Log("YOU WIN!");
+
+        Invoke(nameof(RestartGame), 2f);
     }
 
-    void RestartGame()
+    private void RestartGame()
     {
         SceneManager.LoadScene(
             SceneManager.GetActiveScene().buildIndex

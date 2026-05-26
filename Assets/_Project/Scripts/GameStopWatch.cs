@@ -6,11 +6,11 @@ public class GameStopWatch : MonoBehaviour
     [SerializeField] private TextMeshProUGUI timerText;
 
     private float elapsedTime = 0f;
-    private bool timerRunning = true;
+    private bool isTimerRunning = true;
 
     void Update()
     {
-        if (!timerRunning)
+        if (!isTimerRunning)
             return;
 
         elapsedTime += Time.deltaTime;
@@ -18,12 +18,12 @@ public class GameStopWatch : MonoBehaviour
         int minutes = Mathf.FloorToInt(elapsedTime / 60);
         int seconds = Mathf.FloorToInt(elapsedTime % 60);
 
-        timerText.text = "Time Running: " + string.Format("{0:00}:{1:00}", minutes, seconds);
+        timerText.text = $"Time Running: {minutes:00}:{seconds:00}";
     }
 
     public void StopTimer()
     {
-        timerRunning = false;
+        isTimerRunning = false;
 
         Debug.Log("Final Time: " + timerText.text);
     }
