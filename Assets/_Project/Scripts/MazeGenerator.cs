@@ -1,4 +1,5 @@
 using UnityEngine;
+using StarterAssets;
 
 public class MazeGenerator : MonoBehaviour
 {
@@ -18,22 +19,31 @@ public class MazeGenerator : MonoBehaviour
     private int[,] maze;
 
     [Header("Player")]
-    public Transform player;
+    [SerializeField] private Transform player;
+    private CharacterController characterController;
+    private ThirdPersonController thirdPersonController;
 
     void Start()
     {
         GenerateMaze();
+
         BuildMaze();
+
         SpawnExit();
+
+        characterController =
+            player.GetComponentInChildren<CharacterController>();
+
+        thirdPersonController =
+            player.GetComponentInChildren<ThirdPersonController>();
 
         Invoke(nameof(SpawnPlayer), 0.1f);
     }
 
     void SpawnPlayer()
     {
-        CharacterController controller = player.GetComponentInChildren<CharacterController>();
-
-        controller.enabled = false;
+        thirdPersonController.enabled = false;
+        characterController.enabled = false;
 
         player.position = new Vector3(
             tileSize,
@@ -41,7 +51,14 @@ public class MazeGenerator : MonoBehaviour
             tileSize
         );
 
-        controller.enabled = true;
+        characterController.enabled = true;
+
+        Invoke(nameof(EnablePlayerController), 0.2f);
+    }
+
+    void EnablePlayerController()
+    {
+        thirdPersonController.enabled = true;
     }
 
     void GenerateMaze()
